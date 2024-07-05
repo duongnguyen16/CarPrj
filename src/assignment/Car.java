@@ -71,11 +71,17 @@ public class Car {
                 '}';
     }
 
-    public int compareTo(Car car) {
-        return this.carID.compareTo(car.carID);
+    public int compareTo(Car c) {
+        int diff = this.brand.compareTo(c.brand);
+        if (diff != 0) {
+            return diff;
+        }
+        else {
+            return this.carID.compareTo(c.carID);
+        }
     }
 
     public String screenString() {
-        return String.format("%-10s%-10s%-10s%-10s%-10s", carID, frameID, engineID, color, brand);
+        return String.format("%-10s%-10s%-10s%-10s%-10s", carID, brand, color, frameID, engineID);
     }
 }

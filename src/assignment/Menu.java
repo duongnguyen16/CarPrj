@@ -2,8 +2,8 @@ package assignment;
 
 import java.util.*;
 
-public class Menu {
-    public int int_getChoice(ArrayList<String> Options, Scanner sc) {
+public class Menu<E> {
+    public int int_getChoice(ArrayList<E> Options, Scanner sc) {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         System.out.println(">DEBUG: int_getChoice(ArrayList<String> Options)");
@@ -19,13 +19,13 @@ public class Menu {
         return response;
     }
 
-    public <E> E ref_getChoice(ArrayList<E> Options, Scanner sc) {
+    public E ref_getChoice(ArrayList<E> Options, Scanner sc) {
         System.out.println(">DEBUG: ref_getChoice(ArrayList<E> Options)");
 
         int response;
         int n = Options.size();
         do {
-            response = int_getChoice((ArrayList<String>) Options, sc);
+            response = int_getChoice((ArrayList<E>) Options, sc);
         } while (response < 0 || response > n);
         return Options.get(response - 1);
     }

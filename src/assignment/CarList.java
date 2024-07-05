@@ -71,27 +71,28 @@ public class CarList extends ArrayList<Car> {
 
     public boolean saveToFile(String filename) {
         File f = new File(filename);
-        for (Car car : this) {
-            try {
-                FileWriter fw = new FileWriter(f, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                PrintWriter pw = new PrintWriter(bw);
+        try {
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            for (Car car : this) {
                 pw.print(car.getCarID() + "," + car.getBrand() + "," + car.getColor() + "," + car.getFrameID() + ","
                         + car.getEngineID() + "\n");
-                pw.close();
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
             }
+            pw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public int searchID(String carID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            if (this.get(i).getCarID() == carID) {
+            // debug
+            System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " + carID);
+            if (this.get(i).getCarID().equals(carID)) {
                 return i;
             }
         }
@@ -101,7 +102,9 @@ public class CarList extends ArrayList<Car> {
     public int searchFrame(String fID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            if (this.get(i).getFrameID() == fID) {
+            // debug
+            System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - " + fID);
+            if (this.get(i).getFrameID().equals(fID)) {
                 return i;
             }
         }
@@ -111,7 +114,9 @@ public class CarList extends ArrayList<Car> {
     public int searchEngine(String eID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            if (this.get(i).getEngineID() == eID) {
+            // debug
+            System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " - " + eID);
+            if (this.get(i).getEngineID().equals(eID)) {
                 return i;
             }
         }
@@ -119,29 +124,29 @@ public class CarList extends ArrayList<Car> {
     }
 
     public static boolean checkFormat(String input, String type) {
-        // type: F0000 or E0000 type = "F" or "E"
+        // type: F00000 or E00000 type = "F" or "E"
 
         if (type == "F") {
-            if (input.length() != 5) {
+            if (input.length() != 6) {
                 return false;
             }
             if (input.charAt(0) != 'F') {
                 return false;
             }
-            for (int i = 1; i < 5; i++) {
+            for (int i = 1; i < 6; i++) {
                 if (!Character.isDigit(input.charAt(i))) {
                     return false;
                 }
             }
             return true;
         } else if (type == "E") {
-            if (input.length() != 5) {
+            if (input.length() != 6) {
                 return false;
             }
             if (input.charAt(0) != 'E') {
                 return false;
             }
-            for (int i = 1; i < 5; i++) {
+            for (int i = 1; i < 6; i++) {
                 if (!Character.isDigit(input.charAt(i))) {
                     return false;
                 }
@@ -152,62 +157,69 @@ public class CarList extends ArrayList<Car> {
         }
     }
 
-    public void addCar() {
-        /*
-         * Receive carID, carID must be not duplicated
-         * Create a menu for choosing a brand;
-         * Band b = (Brand)menu. ref_getChoice(brandList);
-         * Receive color, color can not be blank
-         * Receive frameID. It must be in the “F0000” and not be duplicated
-         * Receive engineID. It must be in the “E0000” format and not be duplicated
-         * Create a new car with inputted data;
-         * Add a new car to the list
-         * 
-         */
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter car ID: ");
-        String carID = sc.nextLine();
-        if (searchID(carID) != -1) {
-            System.out.println("Car ID already exists");
-            sc.close();
-            return;
-        }
-        Brand b = bList.getUserChoice();
-        System.out.println("Enter color: ");
-        String color = sc.nextLine();
-        if (color.isBlank()) {
-            System.out.println("Color can not be blank");
-            sc.close();
-            return;
-        }
-        System.out.println("Enter frame ID: ");
-        String frameID = sc.nextLine();
-        if (!checkFormat(frameID, "F")) {
-            System.out.println("Frame ID must be in the F0000 format");
-            sc.close();
-            return;
-        }
-        if (searchFrame(frameID) != -1) {
-            System.out.println("Frame ID already exists");
-            sc.close();
-            return;
-        }
-        System.out.println("Enter engine ID: ");
-        String engineID = sc.nextLine();
-        if (!checkFormat(engineID, "E")) {
-            System.out.println("Engine ID must be in the E0000 format");
-            sc.close();
-            return;
-        }
-        if (searchEngine(engineID) != -1) {
-            System.out.println("Engine ID already exists");
-            sc.close();
-            return;
-        }
-        Car temp = new Car(carID, frameID, engineID, color, b.getBrandID());
-        this.add(temp);
-        sc.close();
+    public void addCar(Scanner sc) {
+        // follow the updateCar method in CarList
+        boolean doneID = false;
+        boolean doneBrand = false;
+        boolean doneFrame = false;
+        boolean doneEngine = false;
+        boolean doneColor = false;
 
+        Car temp = new Car();
+
+        while (!doneID) {
+            System.out.println("Enter car ID: ");
+            String carID = sc.next();
+            if (searchID(carID) != -1) {
+                System.out.println("Car ID already exists");
+            } else {
+                temp.setCarID(carID);
+                doneID = true;
+            }
+        }
+
+        Brand b = bList.getUserChoice();
+        temp.setBrand(b.getBrandID());
+
+        while (!doneColor) {
+            System.out.println("Enter color: ");
+            String color = sc.next();
+            if (color.isBlank()) {
+                System.out.println("Color can not be blank");
+            } else {
+                temp.setColor(color);
+                doneColor = true;
+            }
+        }
+
+        while (!doneFrame) {
+            System.out.println("Enter frame ID: ");
+            String frameID = sc.next();
+            if (!checkFormat(frameID, "F")) {
+                System.out.println("Frame ID must be in the F00000 format");
+            } else if (searchFrame(frameID) != -1) {
+                System.out.println("Frame ID already exists");
+            } else {
+                temp.setFrameID(frameID);
+                doneFrame = true;
+            }
+        }
+
+        while (!doneEngine) {
+            System.out.println("Enter engine ID: ");
+            String engineID = sc.next();
+            if (!checkFormat(engineID, "E")) {
+                System.out.println("Engine ID must be in the E00000 format");
+            } else if (searchEngine(engineID) != -1) {
+                System.out.println("Engine ID already exists");
+            } else {
+                temp.setEngineID(engineID);
+                doneEngine = true;
+            }
+        }
+
+        this.add(temp);
+        System.out.println("Car added successfully");
     }
 
     public void printBasedBrandName(String inp) {
@@ -239,58 +251,58 @@ public class CarList extends ArrayList<Car> {
         return true;
     }
 
-    public boolean updateCar(String id) {
+    public boolean updateCar(String id, Scanner sc) {
+
+        boolean doneFrame = false;
+        boolean doneEngine = false;
+        boolean doneColor = false;
+
         // based on carID
         int index = searchID(id);
         if (index == -1) {
-            System.out.println("Not found");
             return false;
         } else {
-            /*
-             * Create a menu for choosing a brand;
-             * Band b = (Brand)menu. ref_getChoice(brandList);
-             * Receive color, color can not be blank
-             * Receive frameID. It must be in the “F0000” and not be duplicated
-             * Receive engineID. It must be in the “E0000” format and not be duplicated
-             * 
-             */
             Car temp = this.get(index);
+
             Brand b = bList.getUserChoice();
             temp.setBrand(b.getBrandID());
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter color: ");
-            temp.setColor(sc.nextLine());
-            if (temp.getColor().isBlank()) {
-                System.out.println("Color can not be blank");
-                sc.close();
-                return false;
+
+            while (!doneColor) {
+                System.out.println("Enter color: ");
+                String color = sc.next();
+                if (color.isBlank()) {
+                    System.out.println("Color can not be blank");
+                } else {
+                    temp.setColor(color);
+                    doneColor = true;
+                }
             }
-            System.out.println("Enter frame ID: ");
-            temp.setFrameID(sc.nextLine());
-            if (!checkFormat(temp.getFrameID(), "F")) {
-                System.out.println("Frame ID must be in the F0000 format");
-                sc.close();
-                return false;
+            while (!doneFrame) {
+                System.out.println("Enter frame ID: ");
+                String frameID = sc.next();
+                if (!checkFormat(frameID, "F")) {
+                    System.out.println("Frame ID must be in the F00000 format");
+                } else if (searchFrame(frameID) != -1) {
+                    System.out.println("Frame ID already exists");
+                } else {
+                    temp.setFrameID(frameID);
+                    doneFrame = true;
+                }
             }
-            if (searchFrame(temp.getFrameID()) != -1) {
-                System.out.println("Frame ID already exists");
-                sc.close();
-                return false;
-            }
-            System.out.println("Enter engine ID: ");
-            temp.setEngineID(sc.nextLine());
-            if (!checkFormat(temp.getEngineID(), "E")) {
-                System.out.println("Engine ID must be in the E0000 format");
-                sc.close();
-                return false;
-            }
-            if (searchEngine(temp.getEngineID()) != -1) {
-                System.out.println("Engine ID already exists");
-                sc.close();
-                return false;
+
+            while (!doneEngine) {
+                System.out.println("Enter engine ID: ");
+                String engineID = sc.next();
+                if (!checkFormat(engineID, "E")) {
+                    System.out.println("Engine ID must be in the E00000 format");
+                } else if (searchEngine(engineID) != -1) {
+                    System.out.println("Engine ID already exists");
+                } else {
+                    temp.setEngineID(engineID);
+                    doneEngine = true;
+                }
             }
             this.set(index, temp);
-            sc.close();
         }
         return true;
     }

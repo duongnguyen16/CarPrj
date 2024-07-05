@@ -67,8 +67,7 @@ public class BrandList extends ArrayList<Brand> {
     }
 
     public Brand getUserChoice() {
-        Menu menu = new Menu();
-        ArrayList<String> options = new ArrayList<String>();
+        Menu<Brand> menu = new Menu<Brand>();
         Scanner sc = new Scanner(System.in);
         return menu.ref_getChoice(this, sc);
     }

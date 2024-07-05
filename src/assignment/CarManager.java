@@ -1,12 +1,26 @@
 package assignment;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class CarManager {
+
+    public static ArrayList<Car> sortByBrand(ArrayList<Car> cars) {
+        Collections.sort(cars, new Comparator<Car>() {
+            // use compareTo in Car class
+            @Override
+            public int compare(Car c1, Car c2) {
+                return c1.compareTo(c2);
+            }
+        });
+        return cars;
+
+    }
+
     public static void main(String[] args) {
 
-        CarList cList = new CarList();
         BrandList bList = new BrandList();
+        CarList cList = new CarList(bList);
 
         // load data from file
         bList.loadFromFile("Brands.txt");
@@ -31,14 +45,17 @@ public class CarManager {
          * 9- Remove a car based on its ID
          * 10- Update a car based on its ID
          * 11- Save cars to file, named cars.txt
-         * 
+         *
          */
         ArrayList<String> ops = new ArrayList<>(Arrays.asList("List all brand", "Add a new brand", "Search a brand",
-                "Update a brand", "Save brands to file", "List all cars", "List cars based on a part of an input brand",
-                "Add a car", "Remove a car", "Update a car", "Save cars to file", "Exit"));
+                "Update a brand", "Save brands to file", "List all cars in ascending order of brand names",
+                "List cars based on a part of an input brand",
+                "Add a car", "Remove a car based on its ID", "Update a car based on its ID",
+                "Save cars to file",
+                "Exit"));
         int choice = 0;
         Scanner sc = new Scanner(System.in);
-        Menu menu = new Menu();
+        Menu menu = new Menu<String>();
         do {
             choice = menu.int_getChoice(ops, sc);
             switch (choice) {
@@ -67,7 +84,10 @@ public class CarManager {
                     bList.saveToFile("Brands.txt");
                     break;
                 case 6:
-                    cList.listCars();
+                    ArrayList<Car> sortedList = sortByBrand(cList);
+                    for (Car c : sortedList) {
+                        System.out.println(c.screenString());
+                    }
                     break;
                 case 7:
                     System.out.println("Enter a part of brand name: ");
@@ -75,19 +95,23 @@ public class CarManager {
                     cList.printBasedBrandName(inp);
                     break;
                 case 8:
-                    cList.addCar();
+                    cList.addCar(sc);
                     break;
-
                 case 9:
                     System.out.println("Enter car ID to remove: ");
-                    String carID = sc.nextLine();
-                    cList.removeCar(carID);
+                    String carID = sc.next();
+                    if (cList.removeCar(carID)) {
+                        System.out.println("Car removed successfully");
+                    }
                     break;
-
                 case 10:
                     System.out.println("Enter car ID to update: ");
-                    String cID = sc.nextLine();
-                    cList.updateCar(cID);
+                    String cID = sc.next();
+                    if (cList.updateCar(cID, sc)) {
+                        System.out.println("Car updated successfully");
+                    } else {
+                        System.out.println("Car not found");
+                    }
                     break;
                 case 11:
                     cList.saveToFile("Cars.txt");
