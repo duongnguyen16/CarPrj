@@ -50,13 +50,18 @@ public class CarManager {
                     break;
                 case 3:
                     System.out.println("Enter brand ID to search: ");
-                    String brandID = sc.nextLine();
-                    bList.searchID(brandID);
+                    String brandID = sc.next();
+                    int result = bList.searchID(brandID);
+                    if (result == -1) {
+                        System.out.println("Brand not found");
+                    } else {
+                        System.out.println("Brand found at index: " + result);
+                    }
                     break;
                 case 4:
                     System.out.println("Enter brand ID to update: ");
-                    String bID = sc.nextLine();
-                    bList.updateBrand(bID);
+                    String bID = sc.next();
+                    bList.updateBrand(bID, sc);
                     break;
                 case 5:
                     bList.saveToFile("Brands.txt");
@@ -66,7 +71,7 @@ public class CarManager {
                     break;
                 case 7:
                     System.out.println("Enter a part of brand name: ");
-                    String inp = sc.nextLine();
+                    String inp = sc.next();
                     cList.printBasedBrandName(inp);
                     break;
                 case 8:
@@ -92,6 +97,15 @@ public class CarManager {
                 default:
                     break;
             }
+
+            // press enter to continue
+            System.out.println("Press anykey to continue...");
+
+            try {
+                System.in.read();
+            } catch (Exception e) {
+            }
+
         } while (choice > 0 && choice <= ops.size());
     }
 }

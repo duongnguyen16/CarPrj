@@ -214,8 +214,10 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         int count = 0;
         for (int i = 0; i < n; i++) {
+
             Car c = this.get(i);
-            // search if a part of brand name (substring) is in the car brand
+            // debug
+            System.out.println("DEBUG> printBasedBrandName: " + c.getBrand() + " <searching: " + inp + ">");
             if (c.getBrand().contains(inp)) {
                 System.out.println(c.screenString());
                 count++;

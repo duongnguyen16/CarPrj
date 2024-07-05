@@ -13,14 +13,11 @@ public class BrandList extends ArrayList<Brand> {
         if (!f.exists()) {
             return false;
         } else {
-            // Open file in text format for reading line-by-line;
             try {
                 Scanner s = new Scanner(f);
                 while (s.hasNextLine()) {
                     String line = s.nextLine();
                     String[] parts = line.split(",");
-                    // B7-2018, BMW 730Li (2018), Harman Kardon: 3.749
-                    // follow this: ID, brand name, sound brand: price
                     String soundBrand = parts[2].substring(0, parts[2].indexOf(":"));
                     double price = Double.parseDouble(parts[2].substring(parts[2].indexOf(":") + 2));
                     Brand brand = new Brand(parts[0], parts[1], soundBrand, price);
@@ -61,7 +58,8 @@ public class BrandList extends ArrayList<Brand> {
         int n = this.size();
 
         for (int i = 0; i < n; i++) {
-            if (this.get(i).getBrandID() == bID) {
+            System.out.println("DEBUG> searchID: " + this.get(i).getBrandID() + " - " + bID);
+            if (this.get(i).getBrandID().equals(bID)) {
                 return i;
             }
         }
@@ -92,8 +90,7 @@ public class BrandList extends ArrayList<Brand> {
 
     }
 
-    public void updateBrand(String bID) {
-        Scanner sc = new Scanner(System.in);
+    public void updateBrand(String bID, Scanner sc) {
 
         int index = searchID(bID);
         if (index == -1) {
@@ -102,14 +99,29 @@ public class BrandList extends ArrayList<Brand> {
             Brand temp = this.get(index);
             System.out.println("Enter new brand ID: ");
             temp.setBrandID(sc.next());
+            if (temp.getBrandID().equals("")) {
+                System.out.println("Please re-enter the new brand ID: ");
+                temp.setBrandID(sc.next());
+            }
             System.out.println("Enter new brand name: ");
             temp.setBrandName(sc.next());
+            if (temp.getBrandName().equals("")) {
+                System.out.println("Please re-enter the new brand name: ");
+                temp.setBrandName(sc.next());
+            }
             System.out.println("Enter new sound brand: ");
             temp.setSoundBrand(sc.next());
+            if (temp.getSoundBrand().equals("")) {
+                System.out.println("Please re-enter the new sound brand: ");
+                temp.setSoundBrand(sc.next());
+            }
             System.out.println("Enter new price: ");
             temp.setPrice(sc.nextDouble());
+            if (temp.getPrice() == 0) {
+                System.out.println("Please re-enter the new price: ");
+                temp.setPrice(sc.nextDouble());
+            }
         }
-        sc.close();
     }
 
     public void listBrand() {

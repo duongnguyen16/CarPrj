@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Menu {
     public int int_getChoice(ArrayList<String> Options, Scanner sc) {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         System.out.println(">DEBUG: int_getChoice(ArrayList<String> Options)");
         int response;
         int n = Options.size();

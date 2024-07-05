@@ -7,12 +7,13 @@ public class Car {
 
     }
 
-    public Car(String carID, String frameID, String engineID, String color, String brand) {
+    // <ID, brand ID, color, frame ID, engine ID>
+    public Car(String carID, String brandID, String color, String frameID, String engineID) {
         this.carID = carID;
+        this.brand = brandID;
+        this.color = color;
         this.frameID = frameID;
         this.engineID = engineID;
-        this.color = color;
-        this.brand = brand;
     }
 
     // getter
