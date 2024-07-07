@@ -160,7 +160,6 @@ public class CarList extends ArrayList<Car> {
     public void addCar(Scanner sc) {
         // follow the updateCar method in CarList
         boolean doneID = false;
-        boolean doneBrand = false;
         boolean doneFrame = false;
         boolean doneEngine = false;
         boolean doneColor = false;

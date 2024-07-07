@@ -7,14 +7,12 @@ public class CarManager {
 
     public static ArrayList<Car> sortByBrand(ArrayList<Car> cars) {
         Collections.sort(cars, new Comparator<Car>() {
-            // use compareTo in Car class
             @Override
             public int compare(Car c1, Car c2) {
                 return c1.compareTo(c2);
             }
         });
         return cars;
-
     }
 
     public static void main(String[] args) {
@@ -55,7 +53,7 @@ public class CarManager {
                 "Exit"));
         int choice = 0;
         Scanner sc = new Scanner(System.in);
-        Menu menu = new Menu<String>();
+        Menu<String> menu = new Menu<>();
         do {
             choice = menu.int_getChoice(ops, sc);
             switch (choice) {
@@ -72,7 +70,7 @@ public class CarManager {
                     if (result == -1) {
                         System.out.println("Brand not found");
                     } else {
-                        System.out.println("Brand found at index: " + result);
+                        System.out.println(bList.get(result).toString());
                     }
                     break;
                 case 4:
