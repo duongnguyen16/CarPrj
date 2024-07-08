@@ -17,11 +17,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public String toString() {
-        /*
-         * Associating fields to a string for writing a car to file
-         * Return format < carID, brand.brandID, color, frameID, engineID>
-         * 
-         */
+
         String res = "";
         for (Car car : this) {
             res += car.getCarID() + "," + car.getBrand() + "," + car.getColor() + "," + car.getFrameID() + ","
@@ -31,12 +27,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public String screenString() {
-        /*
-         * Associating fields to a string for outputting a car to screen
-         * Return format < brand, “\n”, car_ID, color, frameID, engineID>
-         * 
-         * 
-         */
+
         String res = "";
         for (Car car : this) {
             res += car.getBrand() + "\n" + car.getCarID() + "," + car.getColor() + "," + car.getFrameID() + ","
@@ -50,7 +41,7 @@ public class CarList extends ArrayList<Car> {
         if (!f.exists()) {
             return false;
         } else {
-            // open file reading line by line
+
             try {
                 Scanner s = new Scanner(f);
                 while (s.hasNextLine()) {
@@ -90,8 +81,8 @@ public class CarList extends ArrayList<Car> {
     public int searchID(String carID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            // debug
-            System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " + carID);
+
+            //System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " + carID);
             if (this.get(i).getCarID().equals(carID)) {
                 return i;
             }
@@ -102,8 +93,8 @@ public class CarList extends ArrayList<Car> {
     public int searchFrame(String fID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            // debug
-            System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - " + fID);
+
+            //System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - " + fID);
             if (this.get(i).getFrameID().equals(fID)) {
                 return i;
             }
@@ -114,8 +105,8 @@ public class CarList extends ArrayList<Car> {
     public int searchEngine(String eID) {
         int n = this.size();
         for (int i = 0; i < n; i++) {
-            // debug
-            System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " - " + eID);
+
+            //System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " - " + eID);
             if (this.get(i).getEngineID().equals(eID)) {
                 return i;
             }
@@ -124,7 +115,6 @@ public class CarList extends ArrayList<Car> {
     }
 
     public static boolean checkFormat(String input, String type) {
-        // type: F00000 or E00000 type = "F" or "E"
 
         if (type == "F") {
             if (input.length() != 6) {
@@ -158,7 +148,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void addCar(Scanner sc) {
-        // follow the updateCar method in CarList
+
         boolean doneID = false;
         boolean doneFrame = false;
         boolean doneEngine = false;
@@ -227,8 +217,8 @@ public class CarList extends ArrayList<Car> {
         for (int i = 0; i < n; i++) {
 
             Car c = this.get(i);
-            // debug
-            System.out.println("DEBUG> printBasedBrandName: " + c.getBrand() + " <searching: " + inp + ">");
+
+            //System.out.println("DEBUG> printBasedBrandName: " + c.getBrand() + " <searching: " + inp + ">");
             if (c.getBrand().contains(inp)) {
                 System.out.println(c.screenString());
                 count++;
@@ -239,7 +229,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public boolean removeCar(String id) {
-        // based on carID
+
         int index = searchID(id);
         if (index == -1) {
             System.out.println("Not found");
@@ -256,7 +246,6 @@ public class CarList extends ArrayList<Car> {
         boolean doneEngine = false;
         boolean doneColor = false;
 
-        // based on carID
         int index = searchID(id);
         if (index == -1) {
             return false;
@@ -307,7 +296,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void listCars() {
-        System.out.println("DEBUG> List of cars: ");
+        //System.out.println("DEBUG> List of cars: ");
         int n = this.size();
         for (int i = 0; i < n; i++) {
             Car c = this.get(i);

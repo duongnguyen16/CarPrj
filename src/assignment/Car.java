@@ -7,7 +7,6 @@ public class Car {
 
     }
 
-    // <ID, brand ID, color, frame ID, engine ID>
     public Car(String carID, String brandID, String color, String frameID, String engineID) {
         this.carID = carID;
         this.brand = brandID;
@@ -15,8 +14,6 @@ public class Car {
         this.frameID = frameID;
         this.engineID = engineID;
     }
-
-    // getter
 
     public String getCarID() {
         return carID;
@@ -37,8 +34,6 @@ public class Car {
     public String getBrand() {
         return brand;
     }
-
-    // setter
 
     public void setCarID(String carID) {
         this.carID = carID;
@@ -75,8 +70,7 @@ public class Car {
         int diff = this.brand.compareTo(c.brand);
         if (diff != 0) {
             return diff;
-        }
-        else {
+        } else {
             return this.carID.compareTo(c.carID);
         }
     }

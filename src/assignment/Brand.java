@@ -15,7 +15,6 @@ public class Brand {
         this.price = price;
     }
 
-    // getters
     public String getBrandID() {
         return brandID;
     }
@@ -32,7 +31,6 @@ public class Brand {
         return price;
     }
 
-    // setters
     public void setBrandID(String brandID) {
         this.brandID = brandID;
     }

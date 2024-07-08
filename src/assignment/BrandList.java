@@ -42,7 +42,7 @@ public class BrandList extends ArrayList<Brand> {
             PrintWriter pw = new PrintWriter(bw);
 
             for (Brand brand : this) {
-                pw.print(brand.getBrandID() + ", " + brand.getBrandName() + ", " + brand.getSoundBrand() + ":"
+                pw.println(brand.getBrandID() + ", " + brand.getBrandName() + ", " + brand.getSoundBrand() + ":"
                         + brand.getPrice() + "\n");
             }
 
@@ -58,7 +58,8 @@ public class BrandList extends ArrayList<Brand> {
         int n = this.size();
 
         for (int i = 0; i < n; i++) {
-            System.out.println("DEBUG> searchID: " + this.get(i).getBrandID() + " - " + bID);
+            // System.out.println("DEBUG> searchID: " + this.get(i).getBrandID() + " - " +
+            // bID);
             if (this.get(i).getBrandID().equals(bID)) {
                 return i;
             }
@@ -73,17 +74,49 @@ public class BrandList extends ArrayList<Brand> {
     }
 
     public void addBrand(Scanner sc) {
+
+        boolean doneID = false;
+        boolean doneName = false;
+        boolean doneSound = false;
+        boolean donePrice = false;
+
+        /*
+         * • Brand ID can not be duplicated.
+         * • Brand name can not be blank.
+         * • Sound manufacturer can not be blank.
+         * • Price must be a positive real number.
+         * 
+         */
+
         Brand temp = new Brand();
 
-        // get user input
         System.out.println("Enter brand ID: ");
-        temp.setBrandID(sc.next());
+        temp.setBrandID(sc.nextLine());
+        if (temp.getBrandID().equals("")) {
+            System.out.println("Please re-enter the brand ID: ");
+            temp.setBrandID(sc.nextLine());
+        }
+
         System.out.println("Enter brand name: ");
-        temp.setBrandName(sc.next());
+        temp.setBrandName(sc.nextLine());
+        if (temp.getBrandName().equals("")) {
+            System.out.println("Please re-enter the brand name: ");
+            temp.setBrandName(sc.nextLine());
+        }
+
         System.out.println("Enter sound brand: ");
-        temp.setSoundBrand(sc.next());
+        temp.setSoundBrand(sc.nextLine());
+        if (temp.getSoundBrand().equals("")) {
+            System.out.println("Please re-enter the sound brand: ");
+            temp.setSoundBrand(sc.nextLine());
+        }
+
         System.out.println("Enter price: ");
         temp.setPrice(sc.nextDouble());
+        if (temp.getPrice() <= 0) {
+            System.out.println("Please re-enter the price: ");
+            temp.setPrice(sc.nextDouble());
+        }
 
         this.add(temp);
 
@@ -124,7 +157,7 @@ public class BrandList extends ArrayList<Brand> {
     }
 
     public void listBrand() {
-        System.out.println("DEBUG> List of brand: ");
+        // System.out.println("DEBUG> List of brand: ");
         int n = this.size();
         for (int i = 0; i < n; i++) {
             System.out.println(this.get(i));
