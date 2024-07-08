@@ -82,7 +82,8 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            //System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " + carID);
+            // System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " +
+            // carID);
             if (this.get(i).getCarID().equals(carID)) {
                 return i;
             }
@@ -94,7 +95,8 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            //System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - " + fID);
+            // System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - "
+            // + fID);
             if (this.get(i).getFrameID().equals(fID)) {
                 return i;
             }
@@ -106,7 +108,8 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            //System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " - " + eID);
+            // System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " -
+            // " + eID);
             if (this.get(i).getEngineID().equals(eID)) {
                 return i;
             }
@@ -159,6 +162,7 @@ public class CarList extends ArrayList<Car> {
         while (!doneID) {
             System.out.println("Enter car ID: ");
             String carID = sc.next();
+            //System.out.println("DEBUG> carID: '" + carID + "'");
             if (searchID(carID) != -1) {
                 System.out.println("Car ID already exists");
             } else {
@@ -212,20 +216,41 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void printBasedBrandName(String inp) {
+        /*
+         * Receive aPartOfBrandName;
+         * N = size of the list;
+         * Int count = 0;
+         * For I = 0.. N-1 {
+         * Car c = this.get(i);
+         * If (aPartOfBrandName is a sub-string of c.brand.brandName) {
+         * Print out c.screenString();
+         * count++;
+         * }
+         * If (count==0) print out “No car is detected!”;
+         * 
+         */
         int n = this.size();
         int count = 0;
         for (int i = 0; i < n; i++) {
-
             Car c = this.get(i);
+            // System.out.println("DEBUG> CAR -> " + c.toString());
+            String brandID = c.getBrand();
+            // System.out.println("DEBUG> -> brandID: " + brandID);
+            int index = bList.searchID(brandID);
+            // System.out.println("DEBUG> -> index: " + index);
+            if (index != -1) {
+                Brand b = bList.get(index);
+                // System.out.println("DEBUG> -> b: " + b.toString());
+                if (b.getBrandName().contains(inp)) {
+                    System.out.println(c.screenString());
+                    count++;
+                }
 
-            //System.out.println("DEBUG> printBasedBrandName: " + c.getBrand() + " <searching: " + inp + ">");
-            if (c.getBrand().contains(inp)) {
-                System.out.println(c.screenString());
-                count++;
             }
         }
-        if (count == 0)
+        if (count == 0) {
             System.out.println("No car is detected!");
+        }
     }
 
     public boolean removeCar(String id) {
@@ -296,7 +321,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void listCars() {
-        //System.out.println("DEBUG> List of cars: ");
+        // System.out.println("DEBUG> List of cars: ");
         int n = this.size();
         for (int i = 0; i < n; i++) {
             Car c = this.get(i);

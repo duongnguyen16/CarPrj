@@ -42,7 +42,7 @@ public class BrandList extends ArrayList<Brand> {
             PrintWriter pw = new PrintWriter(bw);
 
             for (Brand brand : this) {
-                pw.println(brand.getBrandID() + ", " + brand.getBrandName() + ", " + brand.getSoundBrand() + ":"
+                pw.print(brand.getBrandID() + "," + brand.getBrandName() + "," + brand.getSoundBrand() + ":"
                         + brand.getPrice() + "\n");
             }
 
@@ -90,32 +90,57 @@ public class BrandList extends ArrayList<Brand> {
 
         Brand temp = new Brand();
 
-        System.out.println("Enter brand ID: ");
-        temp.setBrandID(sc.nextLine());
-        if (temp.getBrandID().equals("")) {
-            System.out.println("Please re-enter the brand ID: ");
-            temp.setBrandID(sc.nextLine());
+        while (!doneID) {
+            System.out.println("Enter brand ID: ");
+            sc.nextLine();
+            temp.setBrandID(sc.next());
+            if (temp.getBrandID().equals("")) {
+                System.out.println("Please re-enter the brand ID: ");
+                temp.setBrandID(sc.next());
+            } else {
+                if (searchID(temp.getBrandID()) != -1) {
+                    System.out.println("Brand ID already exists. Please re-enter the brand ID: ");
+                    temp.setBrandID(sc.next());
+                } else {
+                    doneID = true;
+                }
+            }
         }
 
-        System.out.println("Enter brand name: ");
-        temp.setBrandName(sc.nextLine());
-        if (temp.getBrandName().equals("")) {
-            System.out.println("Please re-enter the brand name: ");
+        sc.nextLine();
+
+        while (!doneName) {
+            // sc.nextLine();
+            System.out.println("Enter brand name: ");
             temp.setBrandName(sc.nextLine());
+            if (temp.getBrandName().equals("")) {
+                System.out.println("Please re-enter the brand name: ");
+                temp.setBrandName(sc.next());
+            } else {
+                doneName = true;
+            }
         }
 
-        System.out.println("Enter sound brand: ");
-        temp.setSoundBrand(sc.nextLine());
-        if (temp.getSoundBrand().equals("")) {
-            System.out.println("Please re-enter the sound brand: ");
+        while (!doneSound) {
+            System.out.println("Enter sound brand: ");
             temp.setSoundBrand(sc.nextLine());
+            if (temp.getSoundBrand().equals("")) {
+                System.out.println("Please re-enter the sound brand: ");
+                temp.setSoundBrand(sc.next());
+            } else {
+                doneSound = true;
+            }
         }
 
-        System.out.println("Enter price: ");
-        temp.setPrice(sc.nextDouble());
-        if (temp.getPrice() <= 0) {
-            System.out.println("Please re-enter the price: ");
+        while (!donePrice) {
+            System.out.println("Enter price: ");
             temp.setPrice(sc.nextDouble());
+            if (temp.getPrice() == 0) {
+                System.out.println("Please re-enter the price: ");
+                temp.setPrice(sc.nextDouble());
+            } else {
+                donePrice = true;
+            }
         }
 
         this.add(temp);
@@ -135,14 +160,15 @@ public class BrandList extends ArrayList<Brand> {
                 System.out.println("Please re-enter the new brand ID: ");
                 temp.setBrandID(sc.next());
             }
+            sc.nextLine();
             System.out.println("Enter new brand name: ");
-            temp.setBrandName(sc.next());
+            temp.setBrandName(sc.nextLine());
             if (temp.getBrandName().equals("")) {
                 System.out.println("Please re-enter the new brand name: ");
                 temp.setBrandName(sc.next());
             }
             System.out.println("Enter new sound brand: ");
-            temp.setSoundBrand(sc.next());
+            temp.setSoundBrand(sc.nextLine());
             if (temp.getSoundBrand().equals("")) {
                 System.out.println("Please re-enter the new sound brand: ");
                 temp.setSoundBrand(sc.next());
