@@ -97,7 +97,7 @@ public class CarManager {
                 case 12:
                     break;
                 default:
-                    break;
+                    continue;
             }
 
             System.out.println("Press anykey to continue...");

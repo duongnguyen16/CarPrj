@@ -1,6 +1,8 @@
 package assignment;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.*;
 
 public class CarList extends ArrayList<Car> {
@@ -82,8 +84,6 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            // System.out.println("DEBUG> searchID: " + this.get(i).getCarID() + " - " +
-            // carID);
             if (this.get(i).getCarID().equals(carID)) {
                 return i;
             }
@@ -95,8 +95,6 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            // System.out.println("DEBUG> searchFrame: " + this.get(i).getFrameID() + " - "
-            // + fID);
             if (this.get(i).getFrameID().equals(fID)) {
                 return i;
             }
@@ -108,8 +106,6 @@ public class CarList extends ArrayList<Car> {
         int n = this.size();
         for (int i = 0; i < n; i++) {
 
-            // System.out.println("DEBUG> searchEngine: " + this.get(i).getEngineID() + " -
-            // " + eID);
             if (this.get(i).getEngineID().equals(eID)) {
                 return i;
             }
@@ -120,31 +116,15 @@ public class CarList extends ArrayList<Car> {
     public static boolean checkFormat(String input, String type) {
 
         if (type == "F") {
-            if (input.length() != 6) {
-                return false;
-            }
-            if (input.charAt(0) != 'F') {
-                return false;
-            }
-            for (int i = 1; i < 6; i++) {
-                if (!Character.isDigit(input.charAt(i))) {
-                    return false;
-                }
-            }
-            return true;
+
+            final Pattern pattern = Pattern.compile("F\\d\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE);
+            final Matcher matcher = pattern.matcher(input);
+            return matcher.matches();
         } else if (type == "E") {
-            if (input.length() != 6) {
-                return false;
-            }
-            if (input.charAt(0) != 'E') {
-                return false;
-            }
-            for (int i = 1; i < 6; i++) {
-                if (!Character.isDigit(input.charAt(i))) {
-                    return false;
-                }
-            }
-            return true;
+
+            final Pattern pattern = Pattern.compile("E\\d\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE);
+            final Matcher matcher = pattern.matcher(input);
+            return matcher.matches();
         } else {
             return false;
         }
@@ -162,7 +142,7 @@ public class CarList extends ArrayList<Car> {
         while (!doneID) {
             System.out.println("Enter car ID: ");
             String carID = sc.next();
-            //System.out.println("DEBUG> carID: '" + carID + "'");
+
             if (searchID(carID) != -1) {
                 System.out.println("Car ID already exists");
             } else {
@@ -216,31 +196,19 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void printBasedBrandName(String inp) {
-        /*
-         * Receive aPartOfBrandName;
-         * N = size of the list;
-         * Int count = 0;
-         * For I = 0.. N-1 {
-         * Car c = this.get(i);
-         * If (aPartOfBrandName is a sub-string of c.brand.brandName) {
-         * Print out c.screenString();
-         * count++;
-         * }
-         * If (count==0) print out “No car is detected!”;
-         * 
-         */
+
         int n = this.size();
         int count = 0;
         for (int i = 0; i < n; i++) {
             Car c = this.get(i);
-            // System.out.println("DEBUG> CAR -> " + c.toString());
+
             String brandID = c.getBrand();
-            // System.out.println("DEBUG> -> brandID: " + brandID);
+
             int index = bList.searchID(brandID);
-            // System.out.println("DEBUG> -> index: " + index);
+
             if (index != -1) {
                 Brand b = bList.get(index);
-                // System.out.println("DEBUG> -> b: " + b.toString());
+
                 if (b.getBrandName().contains(inp)) {
                     System.out.println(c.screenString());
                     count++;
@@ -321,7 +289,7 @@ public class CarList extends ArrayList<Car> {
     }
 
     public void listCars() {
-        // System.out.println("DEBUG> List of cars: ");
+
         int n = this.size();
         for (int i = 0; i < n; i++) {
             Car c = this.get(i);
